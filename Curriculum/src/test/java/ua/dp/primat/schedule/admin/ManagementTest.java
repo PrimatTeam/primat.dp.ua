@@ -26,6 +26,7 @@ import ua.dp.primat.repositories.RoomRepository;
 import ua.dp.primat.repositories.StudentGroupRepository;
 import ua.dp.primat.schedule.admin.groupmanagement.EditGroupPage;
 import ua.dp.primat.schedule.admin.groupmanagement.ManageGroupsPage;
+import ua.dp.primat.schedule.admin.schedule.EditSchedulePage;
 
 /**
  *

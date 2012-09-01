@@ -1,7 +1,10 @@
-package ua.dp.primat.schedule.admin;
+package ua.dp.primat.schedule.admin.schedule;
 
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
+
+import org.apache.wicket.extensions.ajax.markup.html.autocomplete.AutoCompleteTextField;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.markup.html.panel.Panel;
@@ -13,6 +16,7 @@ import ua.dp.primat.domain.Room;
 import ua.dp.primat.domain.lesson.LessonType;
 import ua.dp.primat.schedule.services.EditScheduleService;
 import ua.dp.primat.schedule.services.EditableLesson;
+import ua.dp.primat.schedule.services.LessonService;
 
 /**
  *
@@ -30,7 +34,14 @@ private static final long serialVersionUID = 1L;
 
         add(new FeedbackPanel("feedback"));
 
-        add(new DropDownChoice<Discipline>("disciplineDDC", new PropertyModel<Discipline>(lesson, "discipline"), disciplines));
+        add(new AutoCompleteTextField<String>("disciplineTextBox", new PropertyModel<String>(lesson, "disciplineName")) {
+
+            @Override
+            protected Iterator<String> getChoices(String s) {
+                return lessonService.getDisciplineNamesStartsWith(s).iterator();
+            }
+        });
+//        add(new DropDownChoice<Discipline>("disciplineDDC", new PropertyModel<Discipline>(lesson, "discipline"), disciplines));
         add(new DropDownChoice<Room>("roomDDC", new PropertyModel<Room>(lesson, "room"), rooms));
         add(new DropDownChoice<Lecturer>("lecturerDDC", new PropertyModel<Lecturer>(lesson, "lecturer"), lecturers));
         add(new DropDownChoice<Lecturer>("asistantDDC", new PropertyModel<Lecturer>(lesson, "asistant"), lecturers));
@@ -39,4 +50,6 @@ private static final long serialVersionUID = 1L;
 
     @SpringBean
     private EditScheduleService editScheduleService;
+    @SpringBean
+    private LessonService lessonService;
 }

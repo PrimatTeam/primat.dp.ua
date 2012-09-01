@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 
 #parse ($init)
 
@@ -44,6 +44,23 @@
 									<a class="update-available" href="$update_available_url">#language("updates-are-available-for-liferay")</a>
 								</div>
 							#end
+
+<div style="left: 25px;position: relative;bottom: 80px;">
+  <div>
+  <a href="mailto:math.app.fpm@gmail.com"><img src="/FPM-theme/images/Addition/gmail.png" width="32" height="32"/></a>
+  <a href="http://twitter.com/primat_dp_ua" target="_blank"><img src="/FPM-theme/images/Addition/twitter.png" style="
+		transform: rotate(20deg);
+		-webkit-transform: rotate(20deg); 
+		-moz-transform: rotate(20deg);	
+		filter:progid:DXImageTransform.Microsoft.BasicImage(rotation=3);" width="32" height="32"/></a>
+  </div>
+  <div>
+    <a href="http://primat.dp.ua/en/home/-/blogs/rss" target="_blank"><img src="/FPM-theme/images/Addition/rss.png" width="32" height="32"/></a>
+    <a href="http://vkontakte.ru/club638940" target="_blank"><img src="/FPM-theme/images/Addition/vkontakte.png" width="32" height="32"/></a>
+  </div>
+  
+</div>
+
 						</td>
 					</tr>
 				</tbody>
