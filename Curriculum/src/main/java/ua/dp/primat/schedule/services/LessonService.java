@@ -6,6 +6,7 @@ import javax.annotation.Resource;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ua.dp.primat.domain.Cathedra;
 import ua.dp.primat.domain.Lecturer;
 import ua.dp.primat.domain.Room;
 import ua.dp.primat.domain.StudentGroup;
@@ -25,6 +26,19 @@ import ua.dp.primat.repositories.RoomRepository;
 @Service
 @Transactional
 public class LessonService {
+
+    public List<String> getDisciplineNamesStartsWith(String string) {
+        return disciplineRepository.getDisciplineNamesLike(string + "%");
+    }
+
+    public Discipline getDisciplineByName(String name) {
+        Discipline discipline = disciplineRepository.findByName(name);
+        if (discipline == null) {
+            discipline = new Discipline(name, new Cathedra("?"));
+            disciplineRepository.store(discipline);
+        }
+        return discipline;
+    }
 
     public void saveLesson(Lesson lesson) {
         final Long id = lesson.getLessonDescription().getId();

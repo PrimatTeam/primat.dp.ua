@@ -1,4 +1,4 @@
-package ua.dp.primat.schedule.admin;
+package ua.dp.primat.schedule.admin.schedule;
 
 import java.util.Arrays;
 import java.util.List;
@@ -7,6 +7,7 @@ import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.markup.html.panel.Panel;
 import ua.dp.primat.domain.lesson.DayOfWeek;
+import ua.dp.primat.schedule.admin.schedule.EditableScheduleItemPanel;
 import ua.dp.primat.schedule.services.LessonItem;
 
 /**

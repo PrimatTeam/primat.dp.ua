@@ -26,6 +26,7 @@ public class EditableLesson implements Serializable {
             el.setLecturer(lesson.getLessonDescription().getLecturer());
             el.setAsistant(lesson.getLessonDescription().getAssistant());
             el.setDiscipline(lesson.getLessonDescription().getDiscipline());
+            el.setDisciplineName(el.getDiscipline().getName());
             el.setLessonType(lesson.getLessonDescription().getLessonType());
         }
 
@@ -38,7 +39,7 @@ public class EditableLesson implements Serializable {
     }
 
     public boolean isEmpty() {
-        return eLesson.getLessonDescription().getDiscipline() == null;
+        return disciplineName == null || disciplineName.isEmpty();
     }
 
     public Lecturer getAsistant() {
@@ -97,24 +98,15 @@ public class EditableLesson implements Serializable {
         eLesson.setWeekType(weekType);
     }
 
-    public Lesson toLesson(DayOfWeek day, Long lessonNum) {
-        final Lesson lesson = new Lesson();
-        lesson.setId(eLesson.getId());
-        lesson.setRoom(eLesson.getRoom());
-        lesson.setWeekType(eLesson.getWeekType());
-        lesson.setDayOfWeek(day);
-        lesson.setLessonNumber(lessonNum + 1);
+    public String getDisciplineName() {
+        return disciplineName;
+    }
 
-        final LessonDescription description = new LessonDescription();
-        description.setAssistant(eLesson.getLessonDescription().getAssistant());
-        description.setLecturer(eLesson.getLessonDescription().getLecturer());
-        description.setDiscipline(eLesson.getLessonDescription().getDiscipline());
-        description.setLessonType(eLesson.getLessonDescription().getLessonType());
-
-        lesson.setLessonDescription(description);
-        return lesson;
+    public void setDisciplineName(String disciplineName) {
+        this.disciplineName = disciplineName;
     }
 
     private Lesson eLesson;
+    private String disciplineName;
     private static final long serialVersionUID = 1L;
 }

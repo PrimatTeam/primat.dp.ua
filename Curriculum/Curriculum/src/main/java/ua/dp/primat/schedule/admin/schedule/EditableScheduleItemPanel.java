@@ -1,4 +1,4 @@
-package ua.dp.primat.schedule.admin;
+package ua.dp.primat.schedule.admin.schedule;
 
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxFallbackLink;
