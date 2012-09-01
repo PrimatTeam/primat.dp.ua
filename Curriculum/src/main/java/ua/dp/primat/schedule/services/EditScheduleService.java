@@ -3,7 +3,6 @@ package ua.dp.primat.schedule.services;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.Resource;
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ua.dp.primat.domain.Lecturer;
@@ -19,40 +18,31 @@ import ua.dp.primat.repositories.RoomRepository;
 
 /**
  * Service which helps get and edit schedule.
- *
  * @author EniSh
  */
 @Service
 @Transactional
 public class EditScheduleService {
 
-    private static final DayOfWeek[] DAYS = {
-            DayOfWeek.MONDAY,
-            DayOfWeek.TUESDAY,
-            DayOfWeek.WEDNESDAY,
-            DayOfWeek.THURSDAY,
-            DayOfWeek.FRIDAY
-    };
-
     /**
      * gets special collecton of lessons which help edit schedule.
-     *
      * @param group
      * @param semester semester number of editable schedule
      * @return collection of lessons
      */
-    public WeekLessonCollection getSchedule(StudentGroup group, Long semester) {
+    public WeekLessonColection getSchedule(StudentGroup group, Long semester) {
         final List<Lesson> lessons = lessonRepository.getLessonsByGroupAndSemester(group, semester);
-        return new WeekLessonCollection(lessons);
+        return new WeekLessonColection(lessons);
     }
 
     /**
+     *
      * @param group
      * @param semester
      * @param lessonColection
      */
-    public void setSchedule(StudentGroup group, Long semester, WeekLessonCollection lessonColection) {
-        for (DayOfWeek day : DAYS) {
+    public void setSchedule(StudentGroup group, Long semester, WeekLessonColection lessonColection) {
+        for (DayOfWeek day : DayOfWeek.values()) {
             final LessonItem[] liDay = lessonColection.getLessonItems()[day.getNumber()];
             for (int j = 0; j < liDay.length; j++) {
                 saveLessonItem(liDay[j], group, semester, day, j);
@@ -75,15 +65,15 @@ public class EditScheduleService {
                 lessonService.deleteLesson(editableLesson.getId());
             }
         } else {
-            final Lesson lesson = lessonBuilder.convertFromExternal(editableLesson, day, Long.valueOf(lessonNumber));
+            final Lesson lesson = editableLesson.toLesson(day, Long.valueOf(lessonNumber));
             lesson.getLessonDescription().setSemester(semester);
             lesson.getLessonDescription().setStudentGroup(group);
             lessonService.saveLesson(lesson);
         }
     }
 
-    public void updateLists(StudentGroup group, Long semester) {
-        disciplines = disciplineRepository.getDisciplinesForGroupAndSemester(group, semester);
+    public void updateLists() {
+        disciplines = disciplineRepository.getDisciplines();
         disciplines.add(null);
         lecturers = lecturerRepository.getAllLecturers();
         rooms = roomRepository.getRooms();
@@ -119,7 +109,4 @@ public class EditScheduleService {
 
     @Resource
     private LecturerRepository lecturerRepository;
-
-    @Resource
-    private LessonBuilder lessonBuilder;
 }

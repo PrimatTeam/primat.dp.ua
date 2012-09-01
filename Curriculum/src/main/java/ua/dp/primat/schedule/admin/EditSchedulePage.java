@@ -1,4 +1,4 @@
-package ua.dp.primat.schedule.admin.schedule;
+package ua.dp.primat.schedule.admin;
 
 import java.util.List;
 import org.apache.wicket.markup.html.WebPage;
@@ -11,7 +11,7 @@ import ua.dp.primat.domain.StudentGroup;
 import ua.dp.primat.domain.lesson.DayOfWeek;
 import ua.dp.primat.schedule.services.EditScheduleService;
 import ua.dp.primat.schedule.services.LessonItem;
-import ua.dp.primat.schedule.services.WeekLessonCollection;
+import ua.dp.primat.schedule.services.WeekLessonColection;
 
 /**
  *
@@ -21,11 +21,11 @@ public final class EditSchedulePage extends WebPage {
 
     public EditSchedulePage(final StudentGroup group, final Long semester) {
         super();
-        editScheduleService.updateLists(group, semester);
+        editScheduleService.updateLists();
 
         add(new Label("group", group.toString()));
         add(new Label("semester", semester.toString()));
-        final WeekLessonCollection schedule = editScheduleService.getSchedule(group, semester);
+        final WeekLessonColection schedule = editScheduleService.getSchedule(group, semester);
         final List<LessonItem[]> days = schedule.getDayList();
 
         final Form editForm = new Form("editForm") {
