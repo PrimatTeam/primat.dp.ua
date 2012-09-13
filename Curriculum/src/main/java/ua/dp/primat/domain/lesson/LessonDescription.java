@@ -1,10 +1,8 @@
 package ua.dp.primat.domain.lesson;
 
 import java.io.Serializable;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
+
 import ua.dp.primat.domain.workload.Discipline;
 import ua.dp.primat.domain.Lecturer;
 import ua.dp.primat.domain.StudentGroup;
@@ -12,9 +10,18 @@ import ua.dp.primat.domain.StudentGroup;
 /**
  * Entity, which contains common information about lesson for one group,
  * one semester. Every lessonType has its own LessonDescription
+ *
  * @author fdevelop
  */
 @Entity
+@NamedQueries({
+        @NamedQuery(name = "getDescriptionByFields",
+                query = "select n from LessonDescription n where n.discipline = :discipline and n.studentGroup = :studentGroup " +
+                        "and n.semester = :semester and n.lessonType = :lessonType and n.lecturer = :lecturer and n.assistant = :assistant"),
+        @NamedQuery(name = "getAllDescriptions",
+                query = "select n from LessonDescription n")
+
+})
 public class LessonDescription implements Serializable {
 
     private static final long serialVersionUID = 1L;

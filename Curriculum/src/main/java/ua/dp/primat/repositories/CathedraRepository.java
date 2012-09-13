@@ -13,4 +13,7 @@ public interface CathedraRepository {
     @Transactional(readOnly = true)
     List<Cathedra> getCathedras();
 
+    public Cathedra getCathedraByName(String name);
+    Cathedra store(Cathedra cathedra);
+
 }

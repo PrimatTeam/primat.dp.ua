@@ -21,4 +21,6 @@ public interface RoomRepository {
 
     void store(Room room);
 
+    Room getByProps(Long building, Long number);
+
 }

@@ -2,10 +2,13 @@ package ua.dp.primat.repositories;
 
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import ua.dp.primat.domain.Cathedra;
 import ua.dp.primat.domain.StudentGroup;
 import ua.dp.primat.domain.workload.Discipline;
 
@@ -66,6 +69,17 @@ public class DisciplineRepositoryimpl implements DisciplineRepository {
         if (resultList.size() > 0) {
             return resultList.get(0);
         } else {
+            return null;
+        }
+    }
+
+    public Discipline findByNameAndCathedra(String name, Cathedra cathedra){
+        try{
+            return (Discipline) em.createNamedQuery("getDisciplinesByNameAndCathedra")
+                    .setParameter("name", name)
+                    .setParameter("cathedra", cathedra)
+                    .getSingleResult();
+        }catch (NoResultException e){
             return null;
         }
     }

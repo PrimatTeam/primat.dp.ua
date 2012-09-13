@@ -21,4 +21,6 @@ public interface LessonRepository {
     List<Lesson> getLessonsByLecturerAndSemester(Lecturer lecturer, Semester semester);
     List<Lesson> getLessonsByRoomAndSemester(Room room, Semester semester);
     Lesson find(Long id);
+    List<Lesson> getLessonsByTime(StudentGroup studentGroup, Long semester, DayOfWeek dayOfWeek, Long lessonNumber);
+    List<Lesson> getAllLessons();
 }

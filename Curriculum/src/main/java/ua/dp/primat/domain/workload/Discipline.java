@@ -27,7 +27,9 @@ import ua.dp.primat.domain.Cathedra;
         @NamedQuery(name = Discipline.GET_DISCIPLINE_NAMES_WITH_NAME_LIKE,
                 query = "select distinct dis.name from Discipline dis where dis.name like :pattern"),
         @NamedQuery(name = Discipline.GET_DISCIPLINE_BY_NAME,
-                query = "select discipline from Discipline discipline where discipline.name = :name")
+                query = "select discipline from Discipline discipline where discipline.name = :name"),
+        @NamedQuery(name = "getDisciplinesByNameAndCathedra",
+                query = "select discipline from Discipline discipline where discipline.name = :name and discipline.cathedra = :cathedra")
 
 })
 

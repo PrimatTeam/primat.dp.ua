@@ -2,6 +2,7 @@ package ua.dp.primat.repositories;
 
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,6 +34,17 @@ public class RoomRepositoryImpl implements RoomRepository {
 
     public Room load(Long id){
         return em.find(Room.class, id);
+    }
+
+    public Room getByProps(Long building, Long number){
+        try{
+            return (Room) em.createNamedQuery("getRoomByProps")
+                    .setParameter("building", building)
+                    .setParameter("number", number)
+                    .getSingleResult();
+        } catch (NoResultException e){
+            return null;
+        }
     }
 
     @PersistenceContext(unitName = "curriculum")

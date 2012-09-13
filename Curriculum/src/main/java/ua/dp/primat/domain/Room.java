@@ -6,12 +6,15 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
 @Entity
-@NamedQueries(
-@NamedQuery(name = Room.GET_ALL_ROOMS_QUERY, query = "select r from Room r order by r.number"))
+@NamedQueries({
+        @NamedQuery(name = Room.GET_ALL_ROOMS_QUERY, query = "select r from Room r order by r.number"),
+        @NamedQuery(name = "getRoomByProps", query = "select r from Room r where r.building = :building and r.number = :number")
+})
 public class Room implements Serializable {
 
     public static final String GET_ALL_ROOMS_QUERY = "getAllRooms";

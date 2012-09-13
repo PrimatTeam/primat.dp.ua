@@ -81,7 +81,21 @@ public class LessonRepositoryImpl implements LessonRepository {
 
         return q.getResultList();
     }
-    
+
+    @SuppressWarnings("unchecked")
+    public List<Lesson> getLessonsByTime(StudentGroup studentGroup, Long semester, DayOfWeek dayOfWeek, Long lessonNumber){
+        return em.createNamedQuery("getLessonsByTime")
+                .setParameter("studentGroup", studentGroup)
+                .setParameter("semester", semester)
+                .setParameter("dayOfWeek", dayOfWeek)
+                .setParameter("lessonNumber", lessonNumber)
+                .getResultList();
+    }
+
+    public List<Lesson> getAllLessons() {
+        return em.createNamedQuery("getAllLessons").getResultList();
+    }
+
     private static final String YEAR_PARAMETER = "year";
     private static final String SEMESTER_PARAMETER = "semester";
 }

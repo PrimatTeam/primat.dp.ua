@@ -1,13 +1,15 @@
 package ua.dp.primat.domain;
 
 import java.io.Serializable;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
 @Entity
+@NamedQueries(
+        @NamedQuery(name = "getCathedraByName", query = "select c from Cathedra c where c.name = :name")
+)
 public class Cathedra implements Serializable {
 
     public Cathedra() {
