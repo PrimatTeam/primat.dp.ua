@@ -36,6 +36,7 @@ public class Lesson implements Serializable {
     private Long lessonNumber;
     private WeekType weekType;
     private DayOfWeek dayOfWeek;
+    private LessonSubgroup subgroup;
     @ManyToOne
     private Room room;
     @ManyToOne(cascade = CascadeType.REMOVE)
@@ -98,6 +99,14 @@ public class Lesson implements Serializable {
 
     public void setLessonDescription(LessonDescription lessonDescription) {
         this.lessonDescription = lessonDescription;
+    }
+
+    public LessonSubgroup getSubgroup() {
+        return subgroup;
+    }
+
+    public void setSubgroup(LessonSubgroup subgroup) {
+        this.subgroup = subgroup;
     }
 
     @Override

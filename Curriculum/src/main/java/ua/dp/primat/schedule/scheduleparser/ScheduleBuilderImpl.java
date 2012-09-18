@@ -45,6 +45,7 @@ public class ScheduleBuilderImpl implements ScheduleBuilder {     //todo impleme
             lesson.setDayOfWeek(DayOfWeek.fromNumber(dayNumber));
             lesson.setLessonNumber((long) lessonNumber);
             lesson.setWeekType(mapWeekType(evenOddFlag));
+            lesson.setSubgroup(mapSubgroup(subgroupFlag));
             if (!"&nbsp;".equals(lessonName)) {
                 lesson.setRoom(getRoom(lessonName));
                 lesson.setLessonDescription(getLessonDescription(lessonName, group, getSemester(group)));
@@ -148,6 +149,15 @@ public class ScheduleBuilderImpl implements ScheduleBuilder {     //todo impleme
             return LecturerType.ASSIATANT;
         }
         throw new RuntimeException();
+    }
+
+    protected LessonSubgroup mapSubgroup(SubgroupFlag flag){
+        switch (flag){
+            case FIRST: return LessonSubgroup.FIRST;
+            case SECOND: return LessonSubgroup.SECOND;
+            case ALL: return LessonSubgroup.BOTH;
+            default: return null;
+        }
     }
 
     public List<Lesson> getLessons() {
