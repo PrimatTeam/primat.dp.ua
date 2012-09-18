@@ -8,6 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+
+import org.apache.commons.lang.builder.EqualsBuilder;
 import ua.dp.primat.domain.Room;
 
 @Entity
@@ -96,6 +98,24 @@ public class Lesson implements Serializable {
 
     public void setLessonDescription(LessonDescription lessonDescription) {
         this.lessonDescription = lessonDescription;
+    }
+
+    @Override
+    public boolean equals(Object o){
+        if (o == null) {
+            return false;
+        }
+        if (getClass() != o.getClass()) {
+            return false;
+        }
+        final Lesson other = (Lesson) o;
+        return new EqualsBuilder()
+                .append(this.lessonDescription, other.lessonDescription)
+                .append(this.dayOfWeek, other.dayOfWeek)
+                .append(this.lessonNumber, other.lessonNumber)
+                .append(this.room, other.room)
+                .append(this.weekType, other.weekType)
+                .isEquals();
     }
     private static final long serialVersionUID = 1L;
 }

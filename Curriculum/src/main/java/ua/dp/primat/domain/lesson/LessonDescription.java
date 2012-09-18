@@ -121,4 +121,32 @@ public class LessonDescription implements Serializable {
             return lecturer.getShortName() + ", " + assistant.getShortName();
         }
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        LessonDescription that = (LessonDescription) o;
+
+        if (assistant != null ? !assistant.equals(that.assistant) : that.assistant != null) return false;
+        if (discipline != null ? !discipline.equals(that.discipline) : that.discipline != null) return false;
+        if (lecturer != null ? !lecturer.equals(that.lecturer) : that.lecturer != null) return false;
+        if (lessonType != that.lessonType) return false;
+        if (semester != null ? !semester.equals(that.semester) : that.semester != null) return false;
+        if (studentGroup != null ? !studentGroup.equals(that.studentGroup) : that.studentGroup != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = discipline != null ? discipline.hashCode() : 0;
+        result = 31 * result + (studentGroup != null ? studentGroup.hashCode() : 0);
+        result = 31 * result + (semester != null ? semester.hashCode() : 0);
+        result = 31 * result + (lessonType != null ? lessonType.hashCode() : 0);
+        result = 31 * result + (lecturer != null ? lecturer.hashCode() : 0);
+        result = 31 * result + (assistant != null ? assistant.hashCode() : 0);
+        return result;
+    }
 }
