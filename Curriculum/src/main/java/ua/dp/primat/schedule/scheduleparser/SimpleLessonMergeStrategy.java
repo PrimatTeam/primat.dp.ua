@@ -138,7 +138,7 @@ public class SimpleLessonMergeStrategy implements LessonMergeStrategy {
         Cathedra mergedCatedra = mergeCathedra(cathedra);
         discipline.setCathedra(mergedCatedra);
 
-        Discipline storedDiscipline = disciplineRepository.findByNameAndCathedra(discipline.getName(), discipline.getCathedra());
+        Discipline storedDiscipline = disciplineRepository.findByName(discipline.getName());
         if (storedDiscipline == null) {
             disciplineRepository.store(discipline);
             storedDiscipline = discipline;
@@ -147,6 +147,9 @@ public class SimpleLessonMergeStrategy implements LessonMergeStrategy {
     }
 
     protected Cathedra mergeCathedra(Cathedra cathedra){
+        if (cathedra == null) {
+            return null;
+        }
         Cathedra storedCathedra = findCathedra(cathedra);
         if (storedCathedra == null) {
             storedCathedra = cathedraRepository.store(cathedra);

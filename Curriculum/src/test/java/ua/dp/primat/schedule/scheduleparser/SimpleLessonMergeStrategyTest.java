@@ -189,6 +189,7 @@ public class SimpleLessonMergeStrategyTest {
     @DirtiesContext
     public void testMergeCathedra() {
         cathedraRepository.store(new Cathedra("Cool cathedra 1"));
+        mergeStrategy.mergeCathedra(null);
         mergeStrategy.mergeCathedra(new Cathedra("Cool cathedra 1"));
         List<Cathedra> cathedras = cathedraRepository.getCathedras();
         Assert.assertEquals(1, cathedras.size());
