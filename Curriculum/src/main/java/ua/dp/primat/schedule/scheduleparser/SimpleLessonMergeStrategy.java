@@ -12,11 +12,13 @@ import ua.dp.primat.domain.lesson.LessonDescription;
 import ua.dp.primat.domain.lesson.WeekType;
 import ua.dp.primat.domain.workload.Discipline;
 import ua.dp.primat.repositories.*;
-import ua.dp.primat.schedule.services.Semester;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.Calendar;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Anton Chernetskij
@@ -50,6 +52,7 @@ public class SimpleLessonMergeStrategy implements LessonMergeStrategy {
 
     @Transactional
     public void mergeLessons(List<Lesson> lessons){
+        removeOldLessonsForGroups(lessons);
         for(Lesson lesson: lessons){
             LessonDescription description = lesson.getLessonDescription();
             LessonDescription mergedDescription = mergeLessonDescription(description);
@@ -58,24 +61,25 @@ public class SimpleLessonMergeStrategy implements LessonMergeStrategy {
             Room room = lesson.getRoom();
             Room mergedRoom = mergeRoom(room);
             lesson.setRoom(mergedRoom);
+            lessonRepository.store(lesson);
+        }
+    }
 
-            List<Lesson> lessonsInTime = lessonRepository.getLessonsByTime(mergedDescription.getStudentGroup(),
-                    mergedDescription.getSemester(), lesson.getDayOfWeek(), lesson.getLessonNumber());
-            Lesson mergedLesson;
-
-            if (lesson.getWeekType() == WeekType.BOTH) {
-                for(Lesson oldLesson: lessonsInTime){
+    protected void removeOldLessonsForGroups(List<Lesson> lessons){
+        Set<StudentGroup> processedGroups = new HashSet<StudentGroup>();
+        Calendar calendar = Calendar.getInstance();
+        for(Lesson lesson: lessons){
+            StudentGroup studentGroup = lesson.getLessonDescription().getStudentGroup();
+            if (!processedGroups.contains(studentGroup)) {
+                processedGroups.add(studentGroup);
+                studentGroup = mergeGroup(studentGroup);
+                List<Lesson> oldLessons = lessonRepository.getLessonsByGroupAndSemester(
+                        studentGroup,
+                        studentGroup.getSemesterForDate(calendar));
+                for(Lesson oldLesson: oldLessons){
                     lessonRepository.remove(oldLesson);
                 }
-                mergedLesson = lesson;
-            } else {
-                Lesson oldLesson = selectForUpdate(lessonsInTime, lesson.getWeekType());
-                if (oldLesson != null) {
-                    lessonRepository.remove(oldLesson);
-                }
-                mergedLesson = lesson;
             }
-            lessonRepository.store(mergedLesson);
         }
     }
 
@@ -180,26 +184,6 @@ public class SimpleLessonMergeStrategy implements LessonMergeStrategy {
             storedRoom = room;
         }
         return storedRoom;
-    }
-
-    protected Lesson selectForUpdate(List<Lesson> lessons, WeekType weekType){
-        Lesson result = null;
-        if (lessons.size() == 0) {
-            result = null;
-        } else {
-            for(Lesson lesson: lessons){
-                if (lesson.getWeekType() == WeekType.BOTH) {
-                    result = lesson;
-                    break;
-                } else {
-                    if (lesson.getWeekType() == weekType) {
-                        result = lesson;
-                        break;
-                    }
-                }
-            }
-        }
-        return result;
     }
 
     public void setStudentGroupRepository(StudentGroupRepository studentGroupRepository) {

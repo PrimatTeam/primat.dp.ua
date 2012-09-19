@@ -2,6 +2,7 @@ package ua.dp.primat.domain;
 
 import java.io.Serializable;
 import java.text.DecimalFormat;
+import java.util.Calendar;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.persistence.Column;
@@ -67,6 +68,13 @@ public class StudentGroup implements Serializable {
         } else {
             number = 1L;
         }
+    }
+
+    public long getSemesterForDate(Calendar calendar) {
+        int groupYear = getYear().intValue();
+        int yearsPassed = calendar.get(Calendar.YEAR) - groupYear;
+        int month = calendar.get(Calendar.MONTH);
+        return yearsPassed * 2 + month / 6;
     }
 
     public String getCode() {

@@ -15,6 +15,7 @@ import ua.dp.primat.repositories.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -103,9 +104,10 @@ public class SimpleLessonMergeStrategyTest {
     @Test
     @DirtiesContext
     public void testMergeLessons() {
+        StudentGroup studentGroup = new StudentGroup("Pz-08-1");
         LessonDescription lessonDescription1 = new LessonDescription(
                 new Discipline("CoolDiscipline1", new Cathedra("CoolCathedra1")),
-                new StudentGroup("Pz-08-1"), 3L,
+                studentGroup, studentGroup.getSemesterForDate(Calendar.getInstance()),
                 LessonType.LECTURE,
                 new Lecturer("CoolLecturer1", new Cathedra("CoolCathedra1"), LecturerType.DOCENT),
                 new Lecturer("CoolLecturer2", new Cathedra("CoolCathedra1"), LecturerType.DOCENT));
@@ -121,7 +123,7 @@ public class SimpleLessonMergeStrategyTest {
 
         LessonDescription lessonDescription2 = new LessonDescription(
                 new Discipline("CoolDiscipline2", new Cathedra("CoolCathedra1")),
-                new StudentGroup("Pz-08-1"), 3L,
+                studentGroup, studentGroup.getSemesterForDate(Calendar.getInstance()),
                 LessonType.LECTURE,
                 new Lecturer("CoolLecturer1", new Cathedra("CoolCathedra1"), LecturerType.DOCENT),
                 new Lecturer("CoolLecturer3", new Cathedra("CoolCathedra1"), LecturerType.DOCENT));
@@ -129,30 +131,30 @@ public class SimpleLessonMergeStrategyTest {
 
         mergeStrategy.mergeLessons(Arrays.asList(lesson2));
 
-        Assert.assertEquals(2, lessonRepository.getAllLessons().size());
-        Assert.assertEquals(2, lessonDescriptionRepository.findAll().size());
+        Assert.assertEquals(1, lessonRepository.getAllLessons().size());
+        Assert.assertEquals(1, lessonDescriptionRepository.findAll().size());
         Assert.assertEquals(2, disciplineRepository.getDisciplines().size());
         Assert.assertEquals(1, studentGroupRepository.getGroups().size());
         Assert.assertEquals(3, lecturerRepository.getAllLecturers().size());
 
         LessonDescription lessonDescription3 = new LessonDescription(
                 new Discipline("CoolDiscipline3", new Cathedra("CoolCathedra1")),
-                new StudentGroup("Pz-08-1"), 3L,
+                studentGroup, studentGroup.getSemesterForDate(Calendar.getInstance()),
                 LessonType.LECTURE,
                 new Lecturer("CoolLecturer1", new Cathedra("CoolCathedra1"), LecturerType.DOCENT),
                 new Lecturer("CoolLecturer2", new Cathedra("CoolCathedra1"), LecturerType.DOCENT));
         Lesson lesson3 = new Lesson(1L, WeekType.DENOMINATOR, DayOfWeek.FRIDAY, new Room(3L, 3L), lessonDescription3);
         mergeStrategy.mergeLessons(Arrays.asList(lesson3));
 
-        Assert.assertEquals(2, lessonRepository.getAllLessons().size());
-        Assert.assertEquals(2, lessonDescriptionRepository.findAll().size());
+        Assert.assertEquals(1, lessonRepository.getAllLessons().size());
+        Assert.assertEquals(1, lessonDescriptionRepository.findAll().size());
         Assert.assertEquals(3, disciplineRepository.getDisciplines().size());
         Assert.assertEquals(1, studentGroupRepository.getGroups().size());
         Assert.assertEquals(3, lecturerRepository.getAllLecturers().size());
 
         LessonDescription lessonDescription4 = new LessonDescription(
                 new Discipline("CoolDiscipline4", new Cathedra("CoolCathedra1")),
-                new StudentGroup("Pz-08-1"), 3L,
+                studentGroup, studentGroup.getSemesterForDate(Calendar.getInstance()),
                 LessonType.LECTURE,
                 new Lecturer("CoolLecturer1", new Cathedra("CoolCathedra1"), LecturerType.DOCENT),
                 new Lecturer("CoolLecturer3", new Cathedra("CoolCathedra1"), LecturerType.DOCENT));
@@ -255,46 +257,4 @@ public class SimpleLessonMergeStrategyTest {
         Assert.assertEquals(1, cathedraRepository.getCathedras().size());
         Assert.assertTrue(disciplines.contains(new Discipline("Cool discipline 1", new Cathedra("Cool cathedra 3"))));
     }
-
-    @Test
-    @DirtiesContext
-    public void testSelectForUpdateTwoLessons() {
-        List<Lesson> lessons = new ArrayList<Lesson>();
-        Lesson lesson1 = new Lesson(null, WeekType.NUMERATOR, null, new Room(0L, 0L), null);
-        Lesson lesson2 = new Lesson(null, WeekType.DENOMINATOR, null, new Room(1L, 1L), null);
-        lessons.add(lesson1);
-        lessons.add(lesson2);
-
-        Lesson actual = mergeStrategy.selectForUpdate(lessons, WeekType.NUMERATOR);
-        Assert.assertEquals(lesson1, actual);
-
-        actual = mergeStrategy.selectForUpdate(lessons, WeekType.DENOMINATOR);
-        Assert.assertEquals(lesson2, actual);
-    }
-
-
-    @Test
-    @DirtiesContext
-    public void testSelectForUpdateSingleLesson() {
-        List<Lesson> lessons = new ArrayList<Lesson>();
-        Lesson lesson = new Lesson(null, WeekType.BOTH, null, new Room(0L, 0L), null);
-        lessons.add(lesson);
-
-        Lesson actual = mergeStrategy.selectForUpdate(lessons, WeekType.NUMERATOR);
-        Assert.assertEquals(lesson, actual);
-
-        actual = mergeStrategy.selectForUpdate(lessons, WeekType.DENOMINATOR);
-        Assert.assertEquals(lesson, actual);
-
-        actual = mergeStrategy.selectForUpdate(lessons, WeekType.BOTH);
-        Assert.assertEquals(lesson, actual);
-    }
-
-    @Test
-    public void testSelectForUpdateNoLesson() {
-        List<Lesson> lessons = new ArrayList<Lesson>();
-        Lesson actual = mergeStrategy.selectForUpdate(lessons, WeekType.NUMERATOR);
-        Assert.assertNull(actual);
-    }
-
 }

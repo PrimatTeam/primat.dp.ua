@@ -60,11 +60,8 @@ public class ScheduleBuilderImpl implements ScheduleBuilder {     //todo impleme
     }
 
     protected long getSemester(StudentGroup group){
-        int groupYear = group.getYear().intValue();
         Calendar calendar = Calendar.getInstance();
-        int yearsPassed = calendar.get(Calendar.YEAR) - groupYear;
-        int month = calendar.get(Calendar.MONTH);
-        return yearsPassed*2 + month/6;
+        return group.getSemesterForDate(calendar);
     }
 
     protected WeekType mapWeekType(EvenOddFlag evenOdd) {
