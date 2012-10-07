@@ -37,8 +37,9 @@ public class ScheduleBuilderImpl implements ScheduleBuilder {     //todo impleme
 
     public void addLesson(String groupName, int dayNumber, int lessonNumber,
                           String lessonName, SubgroupFlag subgroupFlag, EvenOddFlag evenOddFlag) {
-        LOGGER.info("{" + lessonName + "}");
+//        LOGGER.info("{" + lessonName + "}");
         try{
+            groupName = groupName.trim();
             StudentGroup group = new StudentGroup(groupName);
 
             Lesson lesson = new Lesson();
@@ -46,10 +47,8 @@ public class ScheduleBuilderImpl implements ScheduleBuilder {     //todo impleme
             lesson.setLessonNumber((long) lessonNumber);
             lesson.setWeekType(mapWeekType(evenOddFlag));
             lesson.setSubgroup(mapSubgroup(subgroupFlag));
-            if (!"&nbsp;".equals(lessonName)) {
-                lesson.setRoom(getRoom(lessonName));
-                lesson.setLessonDescription(getLessonDescription(lessonName, group, getSemester(group)));
-            }
+            lesson.setRoom(getRoom(lessonName));
+            lesson.setLessonDescription(getLessonDescription(lessonName, group, getSemester(group)));
 
             lessons.add(lesson);
         } catch (Exception e) {
@@ -85,31 +84,36 @@ public class ScheduleBuilderImpl implements ScheduleBuilder {     //todo impleme
             return new Room(buildingNumber, roomNumber);
         } else if (lessonDescription.contains("корпус 2")) {
             return new Room(2L, 1L);
+        } else {
+            return null;
         }
-        return null;
     }
 
     protected LessonDescription getLessonDescription(String lessonDescription, StudentGroup group, long semester) {
         Matcher disciplineMatcher = DISCIPLINE_PATTERN.matcher(lessonDescription.replaceAll("\\n", " "));
-        disciplineMatcher.find();
-        String disciplineName = disciplineMatcher.group(1);
-        LessonType lessonType = getLessonType(disciplineMatcher.group(2));
+        if(disciplineMatcher.find()){
+            String disciplineName = disciplineMatcher.group(1);
+            LessonType lessonType = getLessonType(disciplineMatcher.group(2));
 
-        List<Lecturer> lecturers = getLecturers(lessonDescription);
-        Lecturer lecturer = null;
-        Lecturer assistant = null;
-        if (lecturers.size() > 0) {
-            lecturer = lecturers.get(0);
-        }
-        if(lecturers.size() > 1){
-            assistant = lecturers.get(1);
-        }
+            List<Lecturer> lecturers = getLecturers(lessonDescription);
+            Lecturer lecturer = null;
+            Lecturer assistant = null;
+            if (lecturers.size() > 0) {
+                lecturer = lecturers.get(0);
+            }
+            if(lecturers.size() > 1){
+                assistant = lecturers.get(1);
+            }
 
-        return new LessonDescription(
-                new Discipline(disciplineName, null),
-                group,
-                semester,
-                lessonType, lecturer, assistant);
+            return new LessonDescription(
+                    new Discipline(disciplineName, null),
+                    group,
+                    semester,
+                    lessonType, lecturer, assistant);
+
+        } else {
+            return null;
+        }
     }
 
     protected LessonType getLessonType(String typeName) {

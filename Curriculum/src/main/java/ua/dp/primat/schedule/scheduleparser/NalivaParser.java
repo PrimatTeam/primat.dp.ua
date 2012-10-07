@@ -3,6 +3,8 @@ package ua.dp.primat.schedule.scheduleparser;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import edu.dnu.fpm.schedule.parser.ScheduleParser;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import ua.dp.primat.domain.lesson.Lesson;
 
 import java.io.ByteArrayInputStream;
@@ -14,12 +16,14 @@ import java.util.logging.Logger;
 /**
  * Created by Anton Chernetskij
  */
+@Service
 public class NalivaParser {
 
     private static final Logger LOGGER = Logger.getLogger(NalivaParser.class.getName());
 
     private static final String URL = "http://schedule.naliva.com/schedule";
 
+    @Autowired
     private LessonMergeStrategy lessonMergeStrategy;
 
     public void parseAndSave() {
@@ -40,8 +44,7 @@ public class NalivaParser {
         try {
             LOGGER.info("Loading schedule page from " + URL);
             final WebClient webClient = new WebClient();
-            HtmlPage page = null;
-            page = webClient.getPage(URL);
+            HtmlPage page = webClient.getPage(URL);
             page.executeJavaScript("changeFaculty(6);");
             page = (HtmlPage) page.refresh();
 

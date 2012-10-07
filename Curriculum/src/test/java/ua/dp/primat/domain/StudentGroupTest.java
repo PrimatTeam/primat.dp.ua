@@ -29,10 +29,10 @@ public class StudentGroupTest {
 
     @Test
     public void testCreationGroupByFullCode() {
-        StudentGroup instance = new StudentGroup("PZ-08-1");
+        StudentGroup instance = new StudentGroup("ПК-09-1");
 
-        assertEquals("PZ", instance.getCode());
-        assertEquals(Long.valueOf(2008), instance.getYear());
+        assertEquals("ПК", instance.getCode());
+        assertEquals(Long.valueOf(2009), instance.getYear());
         assertEquals(Long.valueOf(1), instance.getNumber());
         assertEquals("", instance.getGroupType());
     }

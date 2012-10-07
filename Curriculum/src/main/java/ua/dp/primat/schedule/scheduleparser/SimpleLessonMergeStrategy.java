@@ -69,21 +69,26 @@ public class SimpleLessonMergeStrategy implements LessonMergeStrategy {
         Set<StudentGroup> processedGroups = new HashSet<StudentGroup>();
         Calendar calendar = Calendar.getInstance();
         for(Lesson lesson: lessons){
-            StudentGroup studentGroup = lesson.getLessonDescription().getStudentGroup();
-            if (!processedGroups.contains(studentGroup)) {
-                processedGroups.add(studentGroup);
-                studentGroup = mergeGroup(studentGroup);
-                List<Lesson> oldLessons = lessonRepository.getLessonsByGroupAndSemester(
-                        studentGroup,
-                        studentGroup.getSemesterForDate(calendar));
-                for(Lesson oldLesson: oldLessons){
-                    lessonRepository.remove(oldLesson);
+            if (lesson.getLessonDescription() != null) {
+                StudentGroup studentGroup = lesson.getLessonDescription().getStudentGroup();
+                if (!processedGroups.contains(studentGroup)) {
+                    processedGroups.add(studentGroup);
+                    studentGroup = mergeGroup(studentGroup);
+                    List<Lesson> oldLessons = lessonRepository.getLessonsByGroupAndSemester(
+                            studentGroup,
+                            studentGroup.getSemesterForDate(calendar));
+                    for(Lesson oldLesson: oldLessons){
+                        lessonRepository.remove(oldLesson);
+                    }
                 }
             }
         }
     }
 
     protected LessonDescription mergeLessonDescription(LessonDescription description){
+        if (description == null) {
+            return null;
+        }
         StudentGroup group = description.getStudentGroup();
         StudentGroup mergedGroup = mergeGroup(group);
         description.setStudentGroup(mergedGroup);
@@ -166,6 +171,9 @@ public class SimpleLessonMergeStrategy implements LessonMergeStrategy {
     }
 
     protected Lecturer mergeLecturer(Lecturer lecturer){
+        if (lecturer == null) {
+            return null;
+        }
         Lecturer storedLecturer = lecturerRepository.getLecturerByName(lecturer.getName());
         if (storedLecturer == null) {
             Cathedra cathedra = lecturer.getCathedra();
@@ -178,6 +186,9 @@ public class SimpleLessonMergeStrategy implements LessonMergeStrategy {
     }
 
     protected Room mergeRoom(Room room){
+        if (room == null) {
+            return null;
+        }
         Room storedRoom = roomRepository.getByProps(room.getBuilding(), room.getNumber());
         if (storedRoom == null) {
             roomRepository.store(room);
