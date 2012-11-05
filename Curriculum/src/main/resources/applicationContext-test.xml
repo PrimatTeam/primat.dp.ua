@@ -51,4 +51,8 @@
     <bean id="curriculumApplication" class="ua.dp.primat.curriculum.view.WicketApplication"/>
     <bean id="scheduleApplication" class="ua.dp.primat.schedule.view.Application"/>
 
+
+    <bean id="nalivaParser" class="ua.dp.primat.schedule.scheduleparser.NalivaParser">
+        <property name="URL" value="http://schedule.naliva.com/schedule"/>
+    </bean>
 </beans>

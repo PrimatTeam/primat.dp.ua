@@ -68,7 +68,8 @@ public final class ManageDisciplines extends WebPage {
         protected void populateItem(ListItem<Discipline> li) {
             final Discipline discipline = li.getModelObject();
             li.add(new Label("disciplineName", discipline.getName()));
-            li.add(new Label("disciplineCathedra", discipline.getCathedra().toString()));
+            final String cathedraName = discipline.getCathedra()!=null?discipline.getCathedra().toString():"-";
+            li.add(new Label("disciplineCathedra", cathedraName));
             final Link editLink = new PageLink("editDiscipline",
                     new EditDisciplinePageLink(discipline));
             editLink.add(new Image("editImage"));

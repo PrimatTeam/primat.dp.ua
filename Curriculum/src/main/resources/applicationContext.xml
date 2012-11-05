@@ -19,7 +19,8 @@
 
     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
         <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
-        <property name="url" value="jdbc:mysql://localhost:3306/curriculum?autoReconnect=true"/>
+        <property name="url"
+                  value="jdbc:mysql://localhost:3306/curriculum?autoReconnect=true&amp;useUnicode=true&amp;characterEncoding=UTF-8"/>
         <property name="username" value="lifedbuser"/>
         <property name="password" value="FCH9AWqDt2cpDvhQ"/>
     </bean>
@@ -50,4 +51,8 @@
 
     <bean id="scheduleApplication" class="ua.dp.primat.schedule.view.Application"/>
     <bean id="scheduleWidgetApplication" class="ua.dp.primat.schedule.widget.Application"/>
+
+    <bean id="nalivaParser" class="ua.dp.primat.schedule.scheduleparser.NalivaParser">
+        <property name="URL" value="http://schedule.naliva.com/schedule"/>
+    </bean>
 </beans>

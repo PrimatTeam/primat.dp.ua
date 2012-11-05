@@ -7,6 +7,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -49,6 +50,7 @@ public class SpringDomainTest extends AbstractTransactionalJUnit4SpringContextTe
     }
 
     @Test
+    @DirtiesContext
     public void testGroupsCount() {
         int groupsCount = 0;//studentGroupRepository.getGroups().size();
         assertEquals("Groups available at start: " + groupsCount, 0, groupsCount);
@@ -62,6 +64,7 @@ public class SpringDomainTest extends AbstractTransactionalJUnit4SpringContextTe
     }
 
     @Test
+    @DirtiesContext
     public void testStudentGroup() {
         //create object
         StudentGroup studentGroup = new StudentGroup();

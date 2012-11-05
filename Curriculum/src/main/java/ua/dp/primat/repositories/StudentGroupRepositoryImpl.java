@@ -19,12 +19,13 @@ public class StudentGroupRepositoryImpl implements StudentGroupRepository {
         return em.createNamedQuery(StudentGroup.GET_GROUPS_QUERY).getResultList();
     }
 
-    public StudentGroup getGroupByCodeAndYearAndNumber(String code, Long year, Long number) {
+    public StudentGroup getGroupByFields(String code, Long year, Long number, String groupType) {
         try {
             return (StudentGroup) em.createNamedQuery(StudentGroup.GET_GROUPS_BY_CODE_AND_YEAR_AND_NUMBER_QUERY)
                     .setParameter("code", code)
                     .setParameter("year", year)
                     .setParameter("number", number)
+                    .setParameter("groupType", groupType)
                     .getSingleResult();
         } catch (NoResultException nre) {
             return null;

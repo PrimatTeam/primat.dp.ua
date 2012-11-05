@@ -104,7 +104,7 @@ public class ScheduleBuilderImplTest {
         String lessonName = "Архітектура обчислювальних систем (лк.)\n" +
                     "        асист. Дзюба П.А.3/25\n" +
                     "    ";
-        builder.addLesson("PZ-08-1", 1, 1, lessonName, SubgroupFlag.FIRST, EvenOddFlag.ODD);
+        builder.addLesson("PZ-08-1", 1, 0, lessonName, SubgroupFlag.FIRST, EvenOddFlag.ODD);
         Lesson actual = builder.getLessons().get(0);
 
         LessonDescription expectedLessonDescription = new LessonDescription(
@@ -125,7 +125,7 @@ public class ScheduleBuilderImplTest {
             String lessonName = "Архітектура обчислювальних систем (лк.)\n" +
                         "        асист. Дзюба П.А.3/25\n" +
                         "    ";
-            builder.addLesson("PZ-08-1", 1, 1, lessonName, SubgroupFlag.FIRST, EvenOddFlag.ODD);
+            builder.addLesson("PZ-08-1", 1, 0, lessonName, SubgroupFlag.FIRST, EvenOddFlag.ODD);
             Lesson actual = builder.getLessons().get(0);
 
             LessonDescription expectedLessonDescription = new LessonDescription(

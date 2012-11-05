@@ -62,7 +62,7 @@ public class LiferayUserService {
     private StudentGroup getStudentGroupByCode(String groupCode) {
         try {
             final StudentGroup sg = new StudentGroup(groupCode);
-            return groupRepository.getGroupByCodeAndYearAndNumber(sg.getCode(), sg.getYear(), sg.getNumber());
+            return groupRepository.getGroupByFields(sg.getCode(), sg.getYear(), sg.getNumber(), sg.getGroupType());
         } catch (IllegalArgumentException iae) {
             return null;
         }

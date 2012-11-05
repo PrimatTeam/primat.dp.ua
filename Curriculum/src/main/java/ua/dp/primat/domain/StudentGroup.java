@@ -18,7 +18,7 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 @Entity
 @NamedQueries({
         @NamedQuery(name = StudentGroup.GET_GROUPS_QUERY, query = "select n from StudentGroup n order by n.code, n.year, n.number"),
-        @NamedQuery(name = StudentGroup.GET_GROUPS_BY_CODE_AND_YEAR_AND_NUMBER_QUERY, query = "select n from StudentGroup n where n.code = :code and n.year = :year and n.number = :number")
+        @NamedQuery(name = StudentGroup.GET_GROUPS_BY_CODE_AND_YEAR_AND_NUMBER_QUERY, query = "select n from StudentGroup n where n.code = :code and n.year = :year and n.number = :number and n.groupType = :groupType")
 })
 public class StudentGroup implements Serializable {
 
@@ -47,7 +47,7 @@ public class StudentGroup implements Serializable {
 
     public StudentGroup(String fullCode) {
         if (!Pattern.matches("\\D{2}\\-\\d{2}[а-я\\w]?(-\\d)?", fullCode)) {
-            throw new IllegalArgumentException("Wrong student group code");
+            throw new IllegalArgumentException("Wrong student group code " + fullCode);
         }
 
         Matcher codeMatcher = CODE_PATTERN.matcher(fullCode);
@@ -130,6 +130,7 @@ public class StudentGroup implements Serializable {
                 .append(code, other.code)
                 .append(year, other.year)
                 .append(number, other.number)
+                .append(groupType, other.groupType)
                 .isEquals();
     }
 
@@ -140,6 +141,7 @@ public class StudentGroup implements Serializable {
                 .append(code)
                 .append(year)
                 .append(number)
+                .append(groupType)
                 .hashCode();
     }
 
@@ -148,7 +150,7 @@ public class StudentGroup implements Serializable {
         final int yearMask = 100;
         final DecimalFormat format = new DecimalFormat("00");
         final String yearCode = format.format(getYear() % yearMask);
-        return String.format("%s-%s-%d", getCode(), yearCode, getNumber());
+        return String.format("%s-%s-%d%s", getCode(), yearCode, getNumber(), getGroupType());
     }
 
     private static final Long YEARBASE = 2000L;

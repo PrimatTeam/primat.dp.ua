@@ -9,7 +9,6 @@ import ua.dp.primat.domain.Room;
 import ua.dp.primat.domain.StudentGroup;
 import ua.dp.primat.domain.lesson.Lesson;
 import ua.dp.primat.domain.lesson.LessonDescription;
-import ua.dp.primat.domain.lesson.WeekType;
 import ua.dp.primat.domain.workload.Discipline;
 import ua.dp.primat.repositories.*;
 
@@ -124,7 +123,7 @@ public class SimpleLessonMergeStrategy implements LessonMergeStrategy {
     }
 
     protected StudentGroup mergeGroup(StudentGroup group){
-        StudentGroup storedGroup = findGroup(group.toString());
+        StudentGroup storedGroup = findGroup(group);
         if (storedGroup == null) {
             studentGroupRepository.store(group);
             return group;
@@ -133,12 +132,12 @@ public class SimpleLessonMergeStrategy implements LessonMergeStrategy {
         }
     }
 
-    private StudentGroup findGroup(String groupName) {
-        StudentGroup studentGroup = new StudentGroup(groupName);
-        StudentGroup dbGroup = studentGroupRepository.getGroupByCodeAndYearAndNumber(
+    private StudentGroup findGroup(StudentGroup studentGroup) {
+        StudentGroup dbGroup = studentGroupRepository.getGroupByFields(
                 studentGroup.getCode(),
                 studentGroup.getYear(),
-                studentGroup.getNumber());
+                studentGroup.getNumber(),
+                studentGroup.getGroupType());
         return dbGroup;
     }
 

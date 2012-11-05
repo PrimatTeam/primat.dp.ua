@@ -111,6 +111,9 @@ public class Lecturer implements Serializable, Comparable<Lecturer> {
         try {
             final char wordSeparator = ' ';
             final String point = ".";
+            if (name.split("\\s").length == 2) {
+                return name;
+            }
             final String short1 = name.charAt(name.indexOf(wordSeparator) + 1) + point;
             final String short2 = name.charAt(name.lastIndexOf(wordSeparator) + 1) + point;
             return name.substring(0, name.indexOf(wordSeparator)) + wordSeparator

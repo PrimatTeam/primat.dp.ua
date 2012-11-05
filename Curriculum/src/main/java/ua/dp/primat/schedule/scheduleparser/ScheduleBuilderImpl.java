@@ -1,5 +1,7 @@
 package ua.dp.primat.schedule.scheduleparser;
 
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import edu.dnu.fpm.schedule.domain.EvenOddFlag;
 import edu.dnu.fpm.schedule.domain.SubgroupFlag;
 import edu.dnu.fpm.schedule.parser.ScheduleBuilder;
@@ -24,7 +26,8 @@ import java.util.regex.Pattern;
  */
 public class ScheduleBuilderImpl implements ScheduleBuilder {     //todo implement
 
-    private static final Logger LOGGER = Logger.getLogger(ScheduleBuilderImpl.class.getName());
+//    private static final Logger LOGGER = Logger.getLogger(ScheduleBuilderImpl.class.getName());
+    private static final Log LOGGER = LogFactoryUtil.getLog(ScheduleBuilderImpl.class);
     private static final Pattern ROOM_PATTERN = Pattern.compile("(\\d{1,2})/(\\d{1,2})");
     private static final Pattern DISCIPLINE_PATTERN = Pattern.compile("^(.*)\\s\\((лк.|пр.|лаб.)\\)");
     private static final Pattern LECTURER_PATTERN =
@@ -37,14 +40,13 @@ public class ScheduleBuilderImpl implements ScheduleBuilder {     //todo impleme
 
     public void addLesson(String groupName, int dayNumber, int lessonNumber,
                           String lessonName, SubgroupFlag subgroupFlag, EvenOddFlag evenOddFlag) {
-//        LOGGER.info("{" + lessonName + "}");
         try{
             groupName = groupName.trim();
             StudentGroup group = new StudentGroup(groupName);
 
             Lesson lesson = new Lesson();
             lesson.setDayOfWeek(DayOfWeek.fromNumber(dayNumber));
-            lesson.setLessonNumber((long) lessonNumber);
+            lesson.setLessonNumber((long) lessonNumber  + 1);
             lesson.setWeekType(mapWeekType(evenOddFlag));
             lesson.setSubgroup(mapSubgroup(subgroupFlag));
             lesson.setRoom(getRoom(lessonName));
@@ -54,7 +56,7 @@ public class ScheduleBuilderImpl implements ScheduleBuilder {     //todo impleme
         } catch (Exception e) {
             String message = String.format("Error parsing lesson. name: %s, group: %s, dayNumber: %s, weekType: %s, subgroup: %s",
                     lessonName, groupName, dayNumber, evenOddFlag, subgroupFlag);
-            LOGGER.log(Level.SEVERE, message, e);
+            LOGGER.error(message, e);
         }
     }
 
@@ -92,7 +94,7 @@ public class ScheduleBuilderImpl implements ScheduleBuilder {     //todo impleme
     protected LessonDescription getLessonDescription(String lessonDescription, StudentGroup group, long semester) {
         Matcher disciplineMatcher = DISCIPLINE_PATTERN.matcher(lessonDescription.replaceAll("\\n", " "));
         if(disciplineMatcher.find()){
-            String disciplineName = disciplineMatcher.group(1);
+            String disciplineName = disciplineMatcher.group(1).trim();
             LessonType lessonType = getLessonType(disciplineMatcher.group(2));
 
             List<Lecturer> lecturers = getLecturers(lessonDescription);
@@ -129,7 +131,7 @@ public class ScheduleBuilderImpl implements ScheduleBuilder {     //todo impleme
 
     protected List<Lecturer> getLecturers(String lessonDescription) {
         String lecturersLine = lessonDescription.split("\n")[1];
-        Matcher matcher = LECTURER_PATTERN.matcher(lecturersLine);
+        Matcher matcher = LECTURER_PATTERN.matcher(lessonDescription);
         List<Lecturer> lecturers = new ArrayList<Lecturer>();
         while (matcher.find()) {
             LecturerType lecturerType = getLecturerType(matcher.group(1));

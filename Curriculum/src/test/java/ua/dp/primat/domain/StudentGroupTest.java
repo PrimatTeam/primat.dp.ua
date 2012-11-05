@@ -9,6 +9,8 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import java.util.Calendar;
+
 import static org.junit.Assert.*;
 
 /**
@@ -55,5 +57,13 @@ public class StudentGroupTest {
         assertEquals(Long.valueOf(2012), instance.getYear());
         assertEquals(Long.valueOf(2), instance.getNumber());
         assertEquals("с", instance.getGroupType());
+    }
+
+    @Test
+    public void testGetSemester() throws Exception {
+        StudentGroup group = new StudentGroup("ПЗ-12-1");
+        Calendar calendar = Calendar.getInstance();
+        group.getSemesterForDate(calendar);
+        System.out.println(group.getSemesterForDate(calendar));
     }
 }

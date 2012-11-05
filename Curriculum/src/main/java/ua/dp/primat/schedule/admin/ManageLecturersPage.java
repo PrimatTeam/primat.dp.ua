@@ -66,7 +66,8 @@ public final class ManageLecturersPage extends WebPage {
         protected void populateItem(ListItem<Lecturer> li) {
             final Lecturer lecturer = li.getModelObject();
             li.add(new Label("name", lecturer.getShortName()));
-            li.add(new Label("cathedra", lecturer.getCathedra().toString()));
+            final String cathedraName = lecturer.getCathedra()!=null?lecturer.getCathedra().toString():"-";
+            li.add(new Label("cathedra", cathedraName));
             li.add(new Label("type", lecturer.getLecturerType().toString()));
             final Link editLink = new PageLink("editLink", new EditLecturerPageLink(lecturer));
             li.add(editLink);
