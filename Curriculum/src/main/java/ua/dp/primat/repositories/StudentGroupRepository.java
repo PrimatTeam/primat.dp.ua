@@ -7,5 +7,5 @@ public interface StudentGroupRepository {
     void store(StudentGroup studentGroup);
     void remove(StudentGroup studentGroup);
     List<StudentGroup> getGroups();
-    StudentGroup getGroupByCodeAndYearAndNumber(String code, Long year, Long number);
+    StudentGroup getGroupByFields(String code, Long year, Long number, String groupType);
 }
