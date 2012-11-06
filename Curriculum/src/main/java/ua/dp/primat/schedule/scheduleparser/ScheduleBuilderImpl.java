@@ -68,9 +68,9 @@ public class ScheduleBuilderImpl implements ScheduleBuilder {     //todo impleme
     protected WeekType mapWeekType(EvenOddFlag evenOdd) {
         switch (evenOdd) {
             case EVEN:
-                return WeekType.NUMERATOR;
-            case ODD:
                 return WeekType.DENOMINATOR;
+            case ODD:
+                return WeekType.NUMERATOR;
             case ALL:
                 return WeekType.BOTH;
             default:

@@ -60,7 +60,7 @@ public class TimeService {
         c.set(Calendar.DATE, 1);
         currentWeekNum -= c.get(Calendar.WEEK_OF_YEAR);
 
-        return ((currentWeekNum) % 2 == 0) ? WeekType.NUMERATOR : WeekType.DENOMINATOR;
+        return !((currentWeekNum) % 2 == 0) ? WeekType.NUMERATOR : WeekType.DENOMINATOR; //todo remove not
     }
 
     public WeekType currentWeekType() {
