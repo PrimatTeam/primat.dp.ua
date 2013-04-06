@@ -1,7 +1,6 @@
 package ua.dp.primat.schedule.scheduleparser;
 
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,9 +9,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import ua.dp.primat.domain.lesson.Lesson;
 import ua.dp.primat.repositories.LecturerRepository;
 import ua.dp.primat.repositories.LessonRepository;
-import ua.dp.primat.repositories.StudentGroupRepository;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;

@@ -5,7 +5,6 @@ import edu.dnu.fpm.schedule.domain.SubgroupFlag;
 import edu.dnu.fpm.schedule.parser.ScheduleParser;
 import junit.framework.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import ua.dp.primat.domain.Lecturer;
 import ua.dp.primat.domain.LecturerType;

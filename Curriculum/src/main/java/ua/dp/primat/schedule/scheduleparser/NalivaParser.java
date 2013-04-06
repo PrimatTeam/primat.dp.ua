@@ -6,14 +6,12 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import edu.dnu.fpm.schedule.parser.ScheduleParser;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import ua.dp.primat.domain.lesson.Lesson;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
-import java.util.logging.Logger;
 
 /**
  * Created by Anton Chernetskij
@@ -57,7 +55,7 @@ public class NalivaParser {
             LOGGER.info("Loading finished.");
 
             String html = page.asXml();
-            LOGGER.debug("Received schedule page: \n" + html);
+//            LOGGER.debug("Received schedule page: \n" + html);
             return html;
         } catch (IOException e) {
             throw new RuntimeException("Error loading schedule html data from " + URL, e);

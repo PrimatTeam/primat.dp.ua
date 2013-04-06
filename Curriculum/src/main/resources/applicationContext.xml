@@ -3,7 +3,7 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:tx="http://www.springframework.org/schema/tx"
        xmlns:context="http://www.springframework.org/schema/context"
-       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:aop="http://www.springframework.org/schema/aop" xmlns:bean="http://www.springframework.org/schema/beans"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
        http://www.springframework.org/schema/context
@@ -54,5 +54,25 @@
 
     <bean id="nalivaParser" class="ua.dp.primat.schedule.scheduleparser.NalivaParser">
         <property name="URL" value="http://schedule.naliva.com/schedule"/>
+    </bean>
+
+    <bean name="exampleJob" class="org.springframework.scheduling.quartz.JobDetailBean">
+        <property name="jobClass" value="ua.dp.primat.schedule.scheduleparser.ScheduleParserJob"/>
+        <property name="jobDataAsMap">
+            <map>
+              <entry key="parser" value-ref="nalivaParser"/>
+            </map>
+          </property>
+    </bean>
+    <bean id="cronTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+        <property name="jobDetail" ref="exampleJob"/>
+        <property name="cronExpression" value="0 0 3 */2 1,2,9,10 ?"/>
+    </bean>
+    <bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+        <property name="triggers">
+            <list>
+                <ref bean="cronTrigger"/>
+            </list>
+        </property>
     </bean>
 </beans>
