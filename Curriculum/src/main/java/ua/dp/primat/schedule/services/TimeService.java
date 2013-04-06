@@ -58,9 +58,13 @@ public class TimeService {
         }
         c.set(Calendar.MONTH, Calendar.SEPTEMBER);
         c.set(Calendar.DATE, 1);
+        if (c.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY ||
+                c.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
+            c.add(Calendar.DAY_OF_MONTH, 2);
+        }
         currentWeekNum -= c.get(Calendar.WEEK_OF_YEAR);
 
-        return !((currentWeekNum) % 2 == 0) ? WeekType.NUMERATOR : WeekType.DENOMINATOR; //todo remove not
+        return ((currentWeekNum) % 2 == 0) ? WeekType.NUMERATOR : WeekType.DENOMINATOR;
     }
 
     public WeekType currentWeekType() {
