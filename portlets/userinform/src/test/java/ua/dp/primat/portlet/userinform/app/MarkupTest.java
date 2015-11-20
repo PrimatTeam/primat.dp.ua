@@ -12,9 +12,11 @@ import com.liferay.portal.model.impl.RoleImpl;
 import com.liferay.portal.model.impl.UserImpl;
 import com.liferay.portlet.expando.model.ExpandoBridge;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
+
 import junit.framework.TestCase;
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.spring.injection.annot.SpringComponentInjector;
@@ -158,6 +160,10 @@ public class MarkupTest extends TestCase {
                             return "role";
                         }
 
+                        @Override
+                        public String getDescriptiveName() throws PortalException, SystemException {
+                            return "role";
+                        }
                     };
                     List<Role> mockList = new ArrayList<Role>();
                     mockList.add(g);
@@ -177,7 +183,10 @@ public class MarkupTest extends TestCase {
 
                 @Override
                 public ExpandoBridge getExpandoBridge() {
-                    return null;
+                    ExpandoBridge mock = createMock(ExpandoBridge.class);
+                    expect(mock.getAttribute(anyObject(String.class))).andReturn("").anyTimes();
+                    replay(mock);
+                    return mock;
                 }
                 
             };
@@ -213,7 +222,7 @@ public class MarkupTest extends TestCase {
 
                 @Override
                 public List<Role> getRoles() throws SystemException {
-                    throw new SystemException("test");
+                    return Collections.EMPTY_LIST;
                 }
 
                 @Override
@@ -228,7 +237,10 @@ public class MarkupTest extends TestCase {
 
                 @Override
                 public ExpandoBridge getExpandoBridge() {
-                    return null;
+                    ExpandoBridge mock = createMock(ExpandoBridge.class);
+                    expect(mock.getAttribute(anyObject(String.class))).andReturn("").anyTimes();
+                    replay(mock);
+                    return mock;
                 }
 
             };
@@ -264,7 +276,7 @@ public class MarkupTest extends TestCase {
 
                 @Override
                 public List<Role> getRoles() throws SystemException {
-                    throw new SystemException("test");
+                    return Collections.EMPTY_LIST;
                 }
 
                 @Override
@@ -279,7 +291,10 @@ public class MarkupTest extends TestCase {
 
                 @Override
                 public ExpandoBridge getExpandoBridge() {
-                    return null;
+                    ExpandoBridge mock = createMock(ExpandoBridge.class);
+                    expect(mock.getAttribute(anyObject(String.class))).andReturn("").anyTimes();
+                    replay(mock);
+                    return mock;
                 }
 
             };

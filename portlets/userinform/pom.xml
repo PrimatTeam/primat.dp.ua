@@ -7,16 +7,6 @@
 	<version>1.0</version>
 	<name>userinform</name>
 	<description></description>
-        <repositories>
-            <repository>
-                <id>Sonatype</id>
-                <url>http://oss.sonatype.org/content/groups/public</url>
-            </repository>
-            <repository>
-                <id>Java.net</id>
-                <url>http://download.java.net/maven/2</url>
-            </repository>
-        </repositories>
 	<dependencies>
         <!--  WICKET DEPENDENCIES -->
             <dependency>
@@ -126,12 +116,6 @@
                     <scope>provided</scope>
             </dependency>
             <dependency>
-                    <groupId>javax.sql</groupId>
-                    <artifactId>jdbc-stdext</artifactId>
-                    <version>2.0</version>
-                    <scope>test</scope>
-            </dependency>
-            <dependency>
                     <groupId>easyconf</groupId>
                     <artifactId>easyconf</artifactId>
                     <version>0.9.0</version>
@@ -169,7 +153,7 @@
             </dependency>
 	</dependencies>
 	<build>
-            <finalName>${artifactId}</finalName>
+            <finalName>${project.artifactId}</finalName>
             <resources>
                     <resource>
                             <filtering>false</filtering>
@@ -245,6 +229,7 @@
                             <inherited>true</inherited>
                             <groupId>org.apache.maven.plugins</groupId>
                             <artifactId>maven-compiler-plugin</artifactId>
+                            <version>3.3</version>
                             <configuration>
                                     <source>1.5</source>
                                     <target>1.5</target>

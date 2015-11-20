@@ -1,0 +1,43 @@
+<wicket:panel>
+    <table id="tableArea">
+        <tbody>
+        <tr>
+            <td class="avatarArea">
+                <div class="ava">
+                    <img wicket:id="avatar" src="" alt=""/>
+                </div>
+            </td>
+            <td>
+                <table id="tableProperties">
+                    <tbody>
+                    <tr>
+                        <td class="propArea">
+                            <wicket:message class="propname" key="label.fullname"></wicket:message>
+                        </td>
+                        <td><span wicket:id="fullname"></span></td>
+                    </tr>
+
+                    <tr>
+                        <td class="propArea">
+                            <wicket:message class="propname" key="label.cath"></wicket:message>
+                        </td>
+                        <td><span wicket:id="cath"></span></td>
+                    </tr>
+
+                    <tr wicket:id="fields">
+                        <td class="propArea"><span wicket:id="label" class="propname"> </span></td>
+                        <td><span wicket:id="value"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="propArea">
+                            <wicket:message class="propname" key="label.email"></wicket:message>
+                        </td>
+                        <td><span wicket:id="email"></span></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</wicket:panel>

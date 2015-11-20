@@ -3,21 +3,20 @@ package ua.dp.primat.portlet.userinform.app;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.model.Group;
-import com.liferay.portal.model.Organization;
 import com.liferay.portal.model.Role;
 import com.liferay.portal.model.User;
-import java.text.DateFormat;
-import java.util.ResourceBundle;
 import org.apache.wicket.behavior.SimpleAttributeModifier;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.image.Image;
-import org.apache.wicket.markup.html.panel.Panel;
+
+import java.text.DateFormat;
+import java.util.ResourceBundle;
 
 /**
  *
  * @author fdevelop
  */
-public class UserInfoPanel extends Panel {
+public class UserInfoPanel extends InfoPanel {
 
     public UserInfoPanel(String id, User user) {
         super(id);
@@ -57,11 +56,6 @@ public class UserInfoPanel extends Panel {
         return (school.length() > 0) ? String.format("%s (%s, %s)", school, sCity, sCountry) : MINUS;
     }
 
-    private String getAvatarPath(User user) {
-        return String.format("/image/user_%s_portrait?img_id=%d", "male",
-                             user.getPortraitId());
-    }
-
     private String getUserGroups(User user) {
         try {
             final StringBuilder groups = new StringBuilder();
@@ -95,23 +89,6 @@ public class UserInfoPanel extends Panel {
         }
     }
 
-    private String getUserOrganization(User user) {
-        try {
-            final StringBuilder groups = new StringBuilder();
-            for (Organization o : user.getOrganizations()) {
-                if (groups.length() > 0) {
-                    groups.append(COMA);
-                }
-                groups.append(o.getName());
-            }
-            return groups.toString();
-        } catch (SystemException se) {
-            return MINUS;
-        } catch (PortalException pe) {
-            return MINUS;
-        }
-    }
-
     private String getUserBirthday(User user) {
         try {
             return DateFormat.getDateInstance(DateFormat.MEDIUM).format(user.getBirthday());
@@ -121,9 +98,8 @@ public class UserInfoPanel extends Panel {
             return MINUS;
         }
     }
-    private final ResourceBundle bundle = ResourceBundle.getBundle(
-            "ua.dp.primat.portlet.userinform.app.UserInfoPanel");
-    private static final String MINUS = "-";
-    private static final String COMA = ", ";
+
     private static final long serialVersionUID = 1L;
+    protected final ResourceBundle bundle = ResourceBundle.getBundle(
+            "ua.dp.primat.portlet.userinform.app.UserInfoPanel");
 }
